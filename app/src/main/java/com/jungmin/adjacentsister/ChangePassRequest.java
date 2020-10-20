@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ChangePassRequest extends StringRequest {
 
-    final static private  String URL = "http://pjm9673.dothome.co.kr/UpdatePass.php";
+    final static private  String URL = "http://pjm9673.dothome.co.kr/as_UpdatePass.php";
     private Map<String, String> map;
 
     public ChangePassRequest(String userID, String userPassword, Response.Listener<String> listener){

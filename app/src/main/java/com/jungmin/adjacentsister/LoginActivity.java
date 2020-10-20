@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                                 String userPass = jsonObject.getString("userPassword");
                                 String userAge = jsonObject.getString("userAge");
 
-                                sessionManager.createSession(userID, userAge);
+                                sessionManager.createSession(userID, userPass);
                                 Toast.makeText(getApplicationContext(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);

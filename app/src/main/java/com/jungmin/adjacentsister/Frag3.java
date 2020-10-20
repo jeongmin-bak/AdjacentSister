@@ -31,6 +31,18 @@ public class Frag3 extends Fragment {
             }
         });
 
+        TextView email = (TextView) view.findViewById(R.id.btn_send);
+        email.setOnClickListener(new TextView.OnClickListener() {
+            public void onClick(View view) {
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.setType("plain/text");
+                String[] address = {"email@address.com"};
+                email.putExtra(Intent.EXTRA_EMAIL, address);
+                email.putExtra(Intent.EXTRA_SUBJECT, "test@test");
+                email.putExtra(Intent.EXTRA_TEXT, "내용");
+                startActivity(email);
+            }
+        });
         return view;
     }
 }

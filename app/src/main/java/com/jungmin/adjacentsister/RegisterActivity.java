@@ -2,13 +2,15 @@ package com.jungmin.adjacentsister;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.jungmin.adjacentsister.RegisterAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -19,7 +21,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText et_id, et_pass, et_age, et_nickname;
+    private EditText et_id, et_pass;
+    private Spinner age, age_detail;
+    private RegisterAdapter ra = new RegisterAdapter();
     private ImageButton btn_before;
     private Button btn_register, btn_check;
     private AlertDialog dialog;
@@ -33,8 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
         btn_before = findViewById(R.id.btn_before);
         et_id = findViewById(R.id.et_id);
         et_pass = findViewById(R.id.et_pass);
-        et_age = findViewById(R.id.et_age);
-        et_nickname = findViewById(R.id.et_nickname);
+        age = findViewById(R.id.age);
+        age_detail = findViewById(R.id.age_detail);
 
         //이전페이지 이동
         btn_before.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +98,28 @@ public class RegisterActivity extends AppCompatActivity {
                 queue.add(validateRequest);
             }
         });
+
+        //spinner 처리
+
+        age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                ra.setTx_age(parent.getItemAtPosition(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+
+        });
+
+        //두번째 spinner 처리
+        age_detail.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                ra.setTx_detail(parent.getItemAtPosition(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
         // 회원가입 버튼 클릭 시 수행
         btn_register = findViewById(R.id.btn_register);
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -103,8 +129,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String userID = et_id.getText().toString();
                 String userPass = et_pass.getText().toString();
-                String userAge = et_age.getText().toString();
-                String userNic = et_nickname.getText().toString();
+                String userAge = ra.getTx_age();
+                String userAge_detail = ra.getTx_detail();
 
                 if(!validate){
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
@@ -115,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                if(userID.equals("")||userPass.equals("")||userNic.equals("")||userAge.equals("")){
+                if(userID.equals("")||userPass.equals("")||userAge.equals("")||userAge_detail.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                     dialog = builder.setMessage("빈 칸 없이 입력해주세요.")
                             .setNegativeButton("확인",null)
@@ -147,11 +173,12 @@ public class RegisterActivity extends AppCompatActivity {
                 }; //onResponse
                 //서버로 Volley를 이용해서 요청을 함.
 
-                RegisterRequest registerRequest = new RegisterRequest(userID,userPass,userAge,userNic, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(userID,userPass,userAge,userAge_detail, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
 
             }
         }); // 리스너
     }
+
 }

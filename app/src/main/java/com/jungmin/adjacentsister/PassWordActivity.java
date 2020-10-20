@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.se.omapi.Session;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class PassWordActivity extends AppCompatActivity {
+    SessionManager sessionManager;
     private EditText new_pass, new_pass_check;
     private Button btn_change;
     @Override
@@ -25,12 +29,17 @@ public class PassWordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass_word);
 
+        sessionManager = new SessionManager(this);
         new_pass = findViewById(R.id.new_pass);
         new_pass_check = findViewById(R.id.new_pass_check);
         btn_change = findViewById(R.id.btn_change);
 
-        Intent intent = getIntent();
-        final String userID = intent.getStringExtra("userId");
+        HashMap<String, String> user = sessionManager.getUserDetail();
+        final String userID = user.get(sessionManager.NAME);
+        final String userPASS = user.get(sessionManager.PASS);
+
+        //Intent intent = getIntent();
+        //final String userID = intent.getStringExtra("userId");
 
         btn_change.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +61,7 @@ public class PassWordActivity extends AppCompatActivity {
                                 if(success){
 
                                     Toast.makeText(getApplicationContext(), "비밀번호가 변경되었습니다다.", Toast.LENGTH_SHORT).show();
+                                    sessionManager.createSession(userID, password1);
                                     Intent intent = new Intent(PassWordActivity.this, MypageActivity.class);
                                     startActivity(intent);
                                 }//if

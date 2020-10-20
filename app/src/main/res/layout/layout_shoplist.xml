@@ -5,28 +5,113 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="MainActivity"
+    tools:context=".ShopList"
     >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginRight="8dp"
-        android:id="@+id/textView1"
-        android:text="검색" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/editTextFilter"
+        android:visibility="gone"/>
+
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        app:srcCompat="@drawable/baseline_search_black_18dp"
+        android:paddingTop="10dp"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/textView1"
-        android:id="@+id/editTextFilter"/>
+        android:ems="10" />
+
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/editTextFilter"
+        android:layout_alignBottom="@id/editTextFilter"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            app:srcCompat="@drawable/baseline_filter_alt_black_18dp"
+
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:textSize="20dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/age_10"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10대"
+            android:textSize="20dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/age_20"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20대"
+            android:textSize="20dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/age_30"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30대 이상"
+            android:textSize="20dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/age_ext2"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="임산부"
+            android:textSize="20dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/age_ext3"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="빅사이즈"
+            android:textSize="20dp" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/age_ext"
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="보정속옷"
+            android:textSize="20dp" />
+
+
+    </com.google.android.material.chip.ChipGroup>
 
     <ListView
+        android:id="@+id/listview1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/editTextFilter"
-        android:textFilterEnabled="true"
-        android:id="@+id/listview1"/>
+        android:layout_below="@id/chip_group"
+        android:textFilterEnabled="true">
+
+    </ListView>
 
 </RelativeLayout>

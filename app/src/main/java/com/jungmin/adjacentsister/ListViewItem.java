@@ -6,6 +6,7 @@ public class ListViewItem {
     private Drawable iconDrawable;
     private String titleStr;
     private String descStr;
+    private String url;
 
     public void setIcon(Drawable icon) {
 
@@ -19,6 +20,10 @@ public class ListViewItem {
 
         descStr = desc;
     }
+    public void setUrl(String link_url ) {
+
+        url=link_url;
+    }
 
     public Drawable getIcon() {
 
@@ -26,6 +31,9 @@ public class ListViewItem {
     }
     public String getTitle() {
         return this.titleStr;
+    }
+    public String getUrl() {
+        return this.url;
     }
     public String getDesc()
     {

@@ -29,6 +29,12 @@ public class Frag1 extends Fragment {
         btn_list = view.findViewById(R.id.btn_list);
         btn_map = view.findViewById(R.id.btn_map);
 
+        btn_measure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         btn_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

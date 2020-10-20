@@ -1,7 +1,9 @@
 package com.jungmin.adjacentsister;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -39,15 +43,26 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
             convertView = inflater.inflate(R.layout.listview_item, parent, false);
         }
 
-        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
+        ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1);
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
+        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2);
 
-        ListViewItem listViewItem = filteredItemList.get(position);
+        final ListViewItem listViewItem = filteredItemList.get(position);
 
         iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getTitle());
         descTextView.setText(listViewItem.getDesc());
+        LinearLayout linearLayout=convertView.findViewById(R.id.list_id);
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(view.getContext(),listViewItemList.get(pos).getUrl(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(),listViewItemList.get(pos).getUrl(), Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(listViewItemList.get(pos).getUrl()));
+                context.startActivity(intent);
+            }
+        });
 
         return convertView;
     }
@@ -62,12 +77,13 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         return filteredItemList.get(position);
     }
 
-    public void addItem(Drawable icon, String title, String desc) {
+    public void addItem(Drawable icon, String title, String desc,String url) {
         ListViewItem item = new ListViewItem();
 
         item.setIcon(icon);
         item.setTitle(title);
         item.setDesc(desc);
+        item.setUrl(url);
 
         listViewItemList.add(item);
     }
@@ -81,7 +97,6 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         return listFilter ;
     }
     private class ListFilter extends Filter {
-
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults() ;
@@ -93,10 +108,11 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
                 ArrayList<ListViewItem> itemList = new ArrayList<ListViewItem>() ;
 
                 for (ListViewItem item : listViewItemList) {
-                    if (item.getTitle().toUpperCase().contains(constraint.toString().toUpperCase()) ||
-                            item.getDesc().toUpperCase().contains(constraint.toString().toUpperCase()))
+
+                    if (item.getDesc().contains(constraint.toString())||
+                            item.getTitle().contains(constraint.toString()) )
                     {
-                        itemList.add(item) ;
+                        itemList.add(item);
                     }
                 }
 
@@ -120,3 +136,4 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     }
 
 }
+
