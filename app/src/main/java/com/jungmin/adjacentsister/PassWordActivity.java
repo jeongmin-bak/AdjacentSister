@@ -9,6 +9,7 @@ import android.se.omapi.Session;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 public class PassWordActivity extends AppCompatActivity {
     SessionManager sessionManager;
     private EditText new_pass, new_pass_check;
+    private ImageButton btn_before;
     private Button btn_change;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class PassWordActivity extends AppCompatActivity {
         new_pass = findViewById(R.id.new_pass);
         new_pass_check = findViewById(R.id.new_pass_check);
         btn_change = findViewById(R.id.btn_change);
+        btn_before = findViewById(R.id.btn_before);
 
         HashMap<String, String> user = sessionManager.getUserDetail();
         final String userID = user.get(sessionManager.NAME);
@@ -40,6 +43,13 @@ public class PassWordActivity extends AppCompatActivity {
 
         //Intent intent = getIntent();
         //final String userID = intent.getStringExtra("userId");
+        //이전페이지 이동
+        btn_before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         btn_change.setOnClickListener(new View.OnClickListener() {
             @Override

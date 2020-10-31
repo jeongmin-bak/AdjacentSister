@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 public class MypageActivity extends AppCompatActivity {
     SessionManager sessionManager;
     private EditText pass;
+    private ImageButton btn_before;
     private Button btn_check;
 
     @Override
@@ -24,6 +26,15 @@ public class MypageActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         pass = findViewById(R.id.pass);
         btn_check = findViewById(R.id.btn_check);
+        btn_before = findViewById(R.id.btn_before);
+
+        //이전페이지 이동
+        btn_before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         Intent intent = getIntent();
         //final String userID = intent.getStringExtra("userID");

@@ -136,4 +136,3 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     }
 
 }
-

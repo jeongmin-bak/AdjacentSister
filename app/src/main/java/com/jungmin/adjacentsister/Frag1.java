@@ -38,7 +38,7 @@ public class Frag1 extends Fragment {
         btn_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ListViewAdapter.class);
+                Intent intent = new Intent(getActivity(), ShopList.class);
                 startActivity(intent);
             }
         });

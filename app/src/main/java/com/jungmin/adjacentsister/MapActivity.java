@@ -1,13 +1,6 @@
 package com.jungmin.adjacentsister;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,7 +13,13 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -31,7 +30,6 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -41,41 +39,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+
+import noman.googleplaces.NRPlaces;
+import noman.googleplaces.Place;
+import noman.googleplaces.PlaceType;
+import noman.googleplaces.PlacesException;
+import noman.googleplaces.PlacesListener;
 
 public class MapActivity extends AppCompatActivity
-        implements OnMapReadyCallback,
-        ActivityCompat.OnRequestPermissionsResultCallback{
-    /*
-    private FragmentManager fragmentManager;
-    private MapFragment mapFragment;
+implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback, PlacesListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
-
-        fragmentManager = getFragmentManager();
-        mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.googleMap);
-        mapFragment.getMapAsync((this));
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        LatLng location = new LatLng(37.485294, 126.901272); // 구로디지털단지역 마커생성
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.title("구로디지털단지역");
-        markerOptions.snippet("전철역");
-        markerOptions.position(location);
-        googleMap.addMarker(markerOptions);
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
-    }
-
-    */
-
+    List<Marker> previous_marker = null;
     private GoogleMap mMap;
     private Marker currentMarker = null;
 
@@ -113,8 +91,16 @@ public class MapActivity extends AppCompatActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
+        previous_marker = new ArrayList<Marker>();
 
+        Button button = (Button)findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPlaceInformation(currentPosition);
+            }
+        });
         mLayout = findViewById(R.id.layout_main);
 
         locationRequest = new LocationRequest()
@@ -547,6 +533,68 @@ public class MapActivity extends AppCompatActivity
 
                 break;
         }
+    }
+
+    @Override
+    public void onPlacesFailure(PlacesException e){
+
+    }
+
+    @Override
+    public void onPlacesStart(){
+
+    }
+
+    @Override
+    public void onPlacesSuccess(final List<Place> places){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (noman.googleplaces.Place place : places) {
+
+                    LatLng latLng
+                            = new LatLng(place.getLatitude()
+                            , place.getLongitude());
+
+                    String markerSnippet = getCurrentAddress(latLng);
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    markerOptions.title(place.getName());
+                    markerOptions.snippet(markerSnippet);
+                    Marker item = mMap.addMarker(markerOptions);
+                    previous_marker.add(item);
+
+                }
+
+                //중복 마커 제거
+                HashSet<Marker> hashSet = new HashSet<Marker>();
+                hashSet.addAll(previous_marker);
+                previous_marker.clear();
+                previous_marker.addAll(hashSet);
+
+            }
+        });
+    }
+
+    @Override
+    public void onPlacesFinished(){
+
+    }
+
+    public void showPlaceInformation(LatLng location){
+        mMap.clear();//지도 클리어
+
+        if (previous_marker != null)
+            previous_marker.clear();//지역정보 마커 클리어
+        new NRPlaces.Builder()
+                .listener(MapActivity.this)
+                .key("AIzaSyDm_9mlVJRPFWAzpHXvxDhNZB79U2xdG68")
+                .latlng(location.latitude, location.longitude)//현재 위치
+                .radius(2000) //500 미터 내에서 검색
+                .type(PlaceType.CLOTHING_STORE)
+                .build()
+                .execute();
     }
 
 }

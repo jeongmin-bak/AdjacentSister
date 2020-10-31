@@ -19,7 +19,7 @@ import android.os.Bundle;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText et_id, et_pass;
-    private Button btn_login;
+    private Button btn_login,btn_before;
     SessionManager sessionManager;
 
     @Override
@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         et_id = findViewById(R.id.et_id);
         et_pass = findViewById(R.id.et_pass);
         btn_login = findViewById(R.id.btn_login);
+        btn_before = findViewById(R.id.btn_before);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,5 +75,12 @@ public class LoginActivity extends AppCompatActivity {
                 queue.add(loginRequest);
             }
         }); // 로그인 리스너
+
+        btn_before.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 }

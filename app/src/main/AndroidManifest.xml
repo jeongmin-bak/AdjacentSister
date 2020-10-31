@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.jungmin.adjacentsister">
     <!-- 인터넷 권한 선언 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- GPS 권한 선언 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- GPS 권한 선언 -->
+    <!-- 네트워크 상태 조회 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PassWordActivity"></activity>
+        <activity android:name=".ChangeInfoActivity" />
+        <activity android:name=".PassWordActivity" />
         <activity android:name=".MypageActivity" />
         <activity android:name=".BottomNavi" />
         <activity android:name=".MapActivity" />
@@ -29,10 +33,14 @@
         </activity>
         <activity android:name=".PreviewActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ShopList" />
+
+        <uses-library android:name="org.apache.http.legacy"
+            android:required="false"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDY5fX7WQlOPOs9AODdAGJGw3N-EVItozo" />
+            android:value="AIzaSyDY5fX7WQlOPOs9AODdAGJGw3N-EVItozo"/>
     </application>
 
 </manifest>

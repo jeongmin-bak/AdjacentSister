@@ -32,6 +32,8 @@
         android:ems="10" />
 
 
+
+
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group"
         android:layout_width="wrap_content"
@@ -48,11 +50,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            app:srcCompat="@drawable/baseline_filter_alt_black_18dp"
 
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:drawableLeft="@drawable/baseline_filter_alt_black_18dp" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/age_10"

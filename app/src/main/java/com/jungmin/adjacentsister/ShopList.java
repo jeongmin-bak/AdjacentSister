@@ -14,8 +14,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.jungmin.adjacentsister.ListViewAdapter;
-import com.jungmin.adjacentsister.R;
 
 import java.util.Arrays;
 
